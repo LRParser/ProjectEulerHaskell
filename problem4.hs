@@ -9,24 +9,27 @@ digs :: Integral x => x -> [x]
 digs 0 = []
 digs x = digs (x `div` 10) ++ [x `mod` 10]
 
+allDigs = map digs allProds
+
+firstAndLastSame :: (Integral x) => [x] -> Bool
 firstAndLastSame n =
   let lengthDigits = length n
       firstDigit = n !! 0
       lastDigit = n !! (lengthDigits - 1)
       in firstDigit == lastDigit
 
+removeFirstAndLast :: (Integral x) => [x] -> [x]
 removeFirstAndLast w =
   let wLen = length w
       numTake = wLen - 2
       numDrop = 1
       in take numTake (drop numDrop w)
 
---isPalin :: Integral [x], => x -> a
+isPalin :: (Integral x) => [x] -> Bool
 isPalin w
   | length w == 0 = True
   | length w == 1 = True
-  | otherwise = firstAndLastSame w && isPalin (removeFirstAndLast w)
+  | otherwise = (firstAndLastSame w) && isPalin (removeFirstAndLast w)
 
--- How to get filter isPalin allProds to pass compiler error?
-allPalins = filter even allProds
+allPalins = filter isPalin allDigs
 maxPalin = maximum allPalins
